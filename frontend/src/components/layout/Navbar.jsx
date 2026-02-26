@@ -1,13 +1,21 @@
 export default function Navbar() {
-    return (
-      <header className="navbar">
-        <h2>eCommerce</h2>
-        <nav>
+  return (
+    <header className="navbar">
+      <div className="container navbar-inner">
+        <a href="/" className="logo">
+          eCommerce
+        </a>
+
+        <nav className="nav-links">
           <a href="/">Home</a>
           <a href="/products">Products</a>
           <a href="/login">Login</a>
         </nav>
-      </header>
-    );
-  }
-  
+
+        <a href="/products" className="nav-cta">
+          Shop Now
+        </a>
+      </div>
+    </header>
+  );
+}
