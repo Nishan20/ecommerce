@@ -23,7 +23,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
         
           {/* CENTER - LOGO */}
-          <div className="flex-1 flex justify-left">
+          <div className="flex-1 flex justify-left space-x-1">
+          <img src="/vite.svg" alt="ShopHub logo" className="h-8 w-8" />
             <h1 className="text-2xl font-bold text-primary">ShopHub</h1>
           </div>
 
