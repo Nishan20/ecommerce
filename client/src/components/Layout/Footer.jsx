@@ -170,7 +170,8 @@ const Footer = () => {
               © 2024 ShopHub. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs mt-1">
-              Developed By <a href="https://www.auraweb.tech/"><b>AuraWeb</b></a>
+              Developed By{" "}
+              <a href="https://www.auraweb.tech/" target="_blank" rel="noopener noreferrer"> <b>AuraWeb</b> </a>
             </p>
           </div>
         </div>
