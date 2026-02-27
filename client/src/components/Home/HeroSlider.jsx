@@ -34,6 +34,7 @@ const HeroSlider = () => {
       cta: "Shop Home",
       url: `/products?category=Home & Garden`,
     },
+    
   ];
 
   useEffect(() => {
