@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config({ path: "./config/config.env" });  // ADD THIS LINE
+
 import pkg from "pg";
 const { Client } = pkg;
 
@@ -18,3 +21,5 @@ export const connectDB = async () => {
     process.exit(1);
   }
 };
+
+export default database;
