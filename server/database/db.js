@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 // Load from the server folder structure
-config({ path: "./server/config/config.env" });
+config({ path: "./config/config.env" });
 
 import pkg from "pg";
 const { Client } = pkg;
