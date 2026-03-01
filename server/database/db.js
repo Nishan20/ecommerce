@@ -1,15 +1,22 @@
 import { config } from "dotenv";
-config({ path: "./config/config.env" });  // ADD THIS LINE
+// Load from the server folder structure
+config({ path: "./server/config/config.env" });
 
 import pkg from "pg";
 const { Client } = pkg;
 
+const dbUser = process.env.DB_USER || 'postgres';
+const dbHost = process.env.DB_HOST || 'localhost';
+const dbName = process.env.DB_NAME || 'mern_ecommerce_store';
+const dbPassword = process.env.DB_PASSWORD || '';
+const dbPort = parseInt(process.env.DB_PORT || '5432', 10);
+
 export const database = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  user: dbUser,
+  host: dbHost,
+  database: dbName,
+  password: dbPassword,
+  port: dbPort,
 });
 
 export const connectDB = async () => {
