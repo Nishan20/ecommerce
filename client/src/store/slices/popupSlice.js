@@ -4,6 +4,7 @@ const popupSlice = createSlice({
   name: "popup",
   initialState: {
     isAuthPopupOpen: false,
+    isLoginModalOpen: false,
     isSidebarOpen: false,
     isSearchBarOpen: false,
     isCartOpen: false,
@@ -12,6 +13,21 @@ const popupSlice = createSlice({
   reducers: {
     toggleAuthPopup(state) {
       state.isAuthPopupOpen = !state.isAuthPopupOpen;
+      if (!state.isAuthPopupOpen) {
+        state.isLoginModalOpen = false;
+      }
+    },
+    toggleLoginModal(state) {
+      state.isLoginModalOpen = !state.isLoginModalOpen;
+    },
+    setAuthPopup(state, action) {
+      state.isAuthPopupOpen = Boolean(action.payload);
+      if (!state.isAuthPopupOpen) {
+        state.isLoginModalOpen = false;
+      }
+    },
+    setLoginModal(state, action) {
+      state.isLoginModalOpen = Boolean(action.payload);
     },
     toggleSidebar(state) {
       state.isSidebarOpen = !state.isSidebarOpen;
@@ -31,6 +47,9 @@ const popupSlice = createSlice({
 
 export const {
   toggleAuthPopup,
+  toggleLoginModal,
+  setAuthPopup,
+  setLoginModal,
   toggleSidebar,
   toggleSearchBar,
   toggleCart,

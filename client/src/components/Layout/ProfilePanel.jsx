@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { X, LogOut, Upload, Eye, EyeOff } from "lucide-react";
+import { X, LogOut, Upload, Eye, EyeOff, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -7,7 +7,7 @@ import {
   updatePassword,
   updateProfile,
 } from "../../store/slices/authSlice";
-import { toggleAuthPopup } from "../../store/slices/popupSlice";
+import { toggleAuthPopup, toggleLoginModal, setAuthPopup, setLoginModal } from "../../store/slices/popupSlice";
 
 const ProfilePanel = () => {
   const dispatch = useDispatch();
@@ -17,8 +17,7 @@ const ProfilePanel = () => {
     (state) => state.auth
   );
 
-  // Allow edits even if authUser isn't loaded yet; API will still guard server-side
-  const isAuthenticated = true;
+  const isAuthenticated = Boolean(authUser);
   const [name, setName] = useState(authUser?.name || "");
   const [email, setEmail] = useState(authUser?.email || "");
   const [avatar, setAvatar] = useState(null);
@@ -53,7 +52,8 @@ const ProfilePanel = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    dispatch(toggleAuthPopup());
+    dispatch(setAuthPopup(false));
+    dispatch(setLoginModal(false));
   };
 
   const handleProfileUpdate = () => {
@@ -96,7 +96,7 @@ const ProfilePanel = () => {
     });
   };
 
-  // Show panel whenever toggle is on; content adapts if user is not logged in
+  // Show profile panel for both guest and authenticated
   if (!isAuthPopupOpen) return null;
 
   return (
@@ -104,7 +104,7 @@ const ProfilePanel = () => {
       {/* overlay */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-        onClick={() => dispatch(toggleAuthPopup())}
+            onClick={() => dispatch(setAuthPopup(false))}
       />
 
       {/* profile panel */}
@@ -117,20 +117,21 @@ const ProfilePanel = () => {
             </h2>
           </div>
           <button
-            onClick={() => dispatch(toggleAuthPopup())}
-            className="p-2 rounded-lg border border-border hover:bg-secondary transition-colors"
-            aria-label="Close profile panel"
+                onClick={() => dispatch(setAuthPopup(false))}
+                className="p-2 rounded-lg border border-border hover:bg-secondary transition-colors"
+                aria-label="Close profile panel"
           >
             <X className="w-5 h-5 text-foreground" />
           </button>
         </div>
 
-        <div className="p-6 space-y-8">
-          {/* Profile summary with action buttons */}
-          <div className="border border-border rounded-xl p-4 flex items-center gap-4 bg-secondary/40">
-            <img
-              src={preview || authUser?.avatar?.url || avatarFallback}
-              alt={authUser?.name || "Avatar"}
+        <div className="flex flex-col h-full">
+          <div className="p-6 flex-1 flex flex-col gap-6 overflow-y-auto">
+            {/* Profile summary with action buttons */}
+            <div className="border border-border rounded-xl p-4 flex items-center gap-4 bg-secondary/40">
+              <img
+                src={preview || authUser?.avatar?.url || avatarFallback}
+                alt={authUser?.name || "Avatar"}
               className="w-14 h-14 rounded-full border border-border object-cover"
             />
             <div className="flex-1 min-w-0">
@@ -141,39 +142,57 @@ const ProfilePanel = () => {
               </p>
             </div>
             <button
-              onClick={() => setProfileModalOpen(true)}
-              className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90"
+              onClick={() => isAuthenticated && setProfileModalOpen(true)}
+              disabled={!isAuthenticated}
+              className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Update
             </button>
           </div>
 
           <button
-            onClick={() => setPasswordModalOpen(true)}
-            className="w-full px-4 py-3 rounded-lg border border-border text-sm font-semibold hover:bg-secondary/60 text-foreground"
+            onClick={() => isAuthenticated && setPasswordModalOpen(true)}
+            disabled={!isAuthenticated}
+            className="w-full px-4 py-3 rounded-lg border border-border text-sm font-semibold hover:bg-secondary/60 text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Change Password
           </button>
-
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Session</p>
-              <p className="font-semibold">{authUser?.name || "Guest"}</p>
+          </div>
+          {/* Session info fixed bottom */}
+          <div className="p-6 border-t border-border bg-background sticky bottom-0">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">Session</p>
+                <p className="font-semibold">
+                  {authUser?.name || authUser?.email || "Guest"}
+                </p>
+              </div>
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-destructive text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </button>
+              ) : (
+                <button
+                onClick={() => {
+                  dispatch(setLoginModal(true));
+                }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10"
+                >
+                  <User className="w-4 h-4" />
+                  Login / Sign up
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleLogout}
-              disabled={!isAuthenticated}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-50"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
           </div>
         </div>
       </div>
 
       {/* Profile Update Modal */}
-      {isProfileModalOpen && (
+      {isProfileModalOpen && isAuthenticated && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="bg-background border border-border rounded-xl shadow-xl w-full max-w-lg p-6 relative">
             <button
@@ -248,7 +267,7 @@ const ProfilePanel = () => {
       )}
 
       {/* Password Modal */}
-      {isPasswordModalOpen && (
+      {isPasswordModalOpen && isAuthenticated && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="bg-background border border-border rounded-xl shadow-xl w-full max-w-lg p-6 relative">
             <button

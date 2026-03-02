@@ -5,7 +5,7 @@ import {
   toggleSearchBar,
   toggleSidebar,
   toggleCart,
-  toggleAuthPopup,
+  setAuthPopup,
 } from "../../store/slices/popupSlice";
 
 const Navbar = () => {
@@ -21,10 +21,18 @@ const Navbar = () => {
     <nav className="fixed left-0 w-full top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-        
+          {/* LEFT - HAMBURGER MENU */}
+          <button
+            onClick={() => dispatch(toggleSidebar())}
+            className="p-2 rounded-lg hover:bg-secondary transition-colors"
+            aria-label="Toggle navigation"
+          >
+            <Menu className="w-6 h-6 text-foreground" />
+          </button>
+
           {/* CENTER - LOGO */}
-          <div className="flex-1 flex justify-left space-x-1">
-          <img src="/vite.svg" alt="ShopHub logo" className="h-8 w-8" />
+          <div className="flex-1 flex justify-center space-x-2">
+            <img src="/vite.svg" alt="ShopHub logo" className="h-8 w-8" />
             <h1 className="text-2xl font-bold text-primary">ShopHub</h1>
           </div>
 
@@ -54,7 +62,7 @@ const Navbar = () => {
 
             {/* USER PROFILE */}
             <button
-              onClick={() => dispatch(toggleAuthPopup())}
+              onClick={() => dispatch(setAuthPopup(true))}
               className="p-2 rounded-lg hover:bg-secondary transition-colors"
               aria-label="Open profile"
             >
@@ -74,13 +82,6 @@ const Navbar = () => {
                 </span>
               )}
             </button>
-            {/* LEFT - HAMBURGER MENU */}
-          <button
-            onClick={() => dispatch(toggleSidebar())}
-            className="p-2 rounded-lg hover:bg-secondary transition-colors"
-            aria-label="Toggle navigation">
-            <Menu className="w-9 h-9 text-foreground" />
-          </button>
           </div>
         </div>
       </div>
