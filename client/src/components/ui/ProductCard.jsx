@@ -8,7 +8,8 @@ const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="group bg-white rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <div className="group bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+      <Link to={`/product/${product.id}`}>      
         <div className="aspect-square bg-gray-200 relative overflow-hidden">
           <img
             src={product.images?.[0] || "/placeholder.jpg"}

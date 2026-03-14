@@ -1,60 +1,50 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { ToastContainer } from "react-toastify";
+﻿import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Layout/Navbar.jsx";
+import Footer from "./components/sections/Footer.jsx";
+import Home from "./pages/Home.jsx";
+import Products from "./pages/Products.jsx";
+import ProductDetail from "./pages/ProductDetail.jsx";
+import Cart from "./pages/Cart.jsx";
+import Payment from "./pages/Payment.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Profile from "./pages/Profile.jsx";
+import Orders from "./pages/Orders.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import FAQ from "./pages/FAQ.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AdminProducts from "./pages/AdminProducts.jsx";
+import AdminOrders from "./pages/AdminOrders.jsx";
+import AdminUsers from "./pages/AdminUsers.jsx";
 
-// Layout Components
-import Navbar from "./components/Layout/Navbar";
-import Sidebar from "./components/Layout/Sidebar";
-import SearchOverlay from "./components/Layout/SearchOverlay";
-import CartSidebar from "./components/Layout/CartSidebar";
-import ProfilePanel from "./components/Layout/ProfilePanel";
-import LoginModal from "./components/Layout/LoginModal";
-import Footer from "./components/Layout/Footer";
-
-// Pages
-import Index from "./pages/Home";
-import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
-import Cart from "./pages/Cart";
-import Orders from "./pages/Orders";
-import Payment from "./pages/Payment";
-import About from "./pages/About";
-import FAQ from "./pages/FAQ";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-
-const App = () => {
+export default function App() {
   return (
-    <>
-      <ThemeProvider>
-        <BrowserRouter>
-          <div className="min-h-screen bg-background">
-            <Navbar />
-            <Sidebar />
-            <SearchOverlay />
-            <CartSidebar />
-            <ProfilePanel />
-            <LoginModal />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/password/reset/:token" element={<Index />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/payment" element={<Payment />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Footer />
-          </div>
-          <ToastContainer />
-        </BrowserRouter>
-      </ThemeProvider>
-    </>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
-};
-
-export default App;
+}

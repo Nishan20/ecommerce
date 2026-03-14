@@ -139,12 +139,29 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
+    @apply bg-gray-50 text-foreground antialiased font-sans;
+  }
+
+  a {
+    @apply text-primary hover:text-primary/80 transition;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-3xl font-semibold;
+  }
+  h3 {
+    @apply text-2xl font-semibold;
+  }
+  p {
+    @apply leading-relaxed;
   }
 }
 
@@ -184,6 +201,15 @@
   /* Glow effects */
   .glow-primary {
     box-shadow: var(--shadow-glow);
+  }
+
+  /* Utility: hide scrollbars */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
   
   .glow-on-hover:hover {
