@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  User
+  Admin
+}
+
+enum OrderStatus {
+  Processing
+  Shipped
+  Delivered
+  Cancelled
+}
+
+enum PaymentStatus {
+  Pending
+  Paid
+  Failed
+  Refunded
+}
+
+model User {
+  id              String    @id @default(uuid())
+  name            String
+  email           String    @unique
+  password        String
+  role            Role      @default(User)
+  avatar          String?
+  phone           String?
+  address         String?
+  city            String?
+  state           String?
+  country         String?
+  pincode         String?
+  // Device & Location tracking
+  lastLoginDevice String?
+  lastLoginIp     String?
+  lastLoginLocation String?
+  resetPasswordToken    String?
+  resetPasswordExpire   DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  orders          Order[]   @relation("UserOrders")
+  reviews         Review[]
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  image       String?
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  images      String[]  // Array of image URLs
+  stock       Int       @default(0)
+  ratings     Float     @default(0)
+  numOfReviews Int      @default(0)
+  reviews     Review[]
+  orderItems  OrderItem[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int
+  comment    String?
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  user            User        @relation("UserOrders", fields: [userId], references: [id])
+  userId          String
+  orderItems      OrderItem[]
+  shippingInfo    ShippingInfo?
+  payment         Payment?
+  itemsPrice      Float
+  taxPrice        Float
+  shippingPrice   Float
+  totalPrice      Float
+  orderStatus     OrderStatus @default(Processing)
+  paidAt          DateTime?
+  deliveredAt     DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  name      String
+  price     Float
+  quantity  Int
+  image     String?
+}
+
+model ShippingInfo {
+  id        String  @id @default(uuid())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String  @unique
+  fullName  String
+  address   String
+  city      String
+  state     String
+  country   String
+  pincode   String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  order           Order         @relation(fields: [orderId], references: [id])
+  orderId         String        @unique
+  paymentId       String?
+  paymentStatus   PaymentStatus @default(Pending)
+  paymentMethod   String?
+  transactionId   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+

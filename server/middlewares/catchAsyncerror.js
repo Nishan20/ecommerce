@@ -1,11 +1,5 @@
-// server/middlewares/catchAsyncerror.js
-
-const catchAsyncError = (asyncFunction) => {
-    return (req, res, next) => {
-        Promise.resolve(asyncFunction(req, res, next))
-            .catch((error) => next(error));
-    };
+// Catch Async Errors
+export const catchAsyncErrors = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-export const catchAsyncErrors = catchAsyncError;
-export default catchAsyncError;

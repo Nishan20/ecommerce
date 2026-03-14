@@ -1,22 +1,19 @@
 import { config } from "dotenv";
-config({ path: "./config/config.env" }); // MUST BE FIRST
+config();   // ✅ correct
 
-import app from "./app.js";
+import app from "./src/app.js";
 import cloudinary from "cloudinary";
-import { connectDB } from "./database/db.js";
-import { createTables } from "./utils/createTables.js";
+import { connectDB } from "./src/config/database.js";
 
 cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
-  api_key: process.env.CLOUDINARY_CLIENT_API,
-  api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
-
   await connectDB();
-  await createTables();
 });

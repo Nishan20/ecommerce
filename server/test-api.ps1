@@ -11,7 +11,7 @@ $registerBody = @{
 } | ConvertTo-Json
 
 try {
-    $response = Invoke-RestMethod -Uri "$baseUrl/register" -Method Post -ContentType "application/json" -Body $registerBody
+    $response = Invoke-RestMethod -Uri "$baseUrl/auth/register" -Method Post -ContentType "application/json" -Body $registerBody
     Write-Host "Register Response: SUCCESS" -ForegroundColor Green
     $global:token = $response.token
     Write-Host "Token received: $($global:token.Substring(0, 20))..." -ForegroundColor Gray
@@ -27,7 +27,7 @@ $loginBody = @{
 } | ConvertTo-Json
 
 try {
-    $loginResponse = Invoke-RestMethod -Uri "$baseUrl/login" -Method Post -ContentType "application/json" -Body $loginBody
+    $loginResponse = Invoke-RestMethod -Uri "$baseUrl/auth/login" -Method Post -ContentType "application/json" -Body $loginBody
     Write-Host "Login Response: SUCCESS" -ForegroundColor Green
     $global:token = $loginResponse.token
 } catch {
@@ -125,7 +125,7 @@ try {
 # Test Logout
 Write-Host "`n[TEST] Logout" -ForegroundColor Yellow
 try {
-    $logoutResponse = Invoke-RestMethod -Uri "$baseUrl/logout" -Method Get -Headers $headers
+    $logoutResponse = Invoke-RestMethod -Uri "$baseUrl/auth/logout" -Method Get -Headers $headers
     Write-Host "Logout: SUCCESS" -ForegroundColor Green
 } catch {
     Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
