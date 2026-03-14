@@ -58,7 +58,7 @@ export const authorizedRoles = (...roles) => {
 };
 
 // Generate JWT Token
-export const sendToken = (user, statusCode, res) => {
+export const sendToken = (user, statusCode, message, res) => {
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
@@ -74,6 +74,13 @@ export const sendToken = (user, statusCode, res) => {
     success: true,
     user,
     token,
+    message,
   });
+};
+
+export default {
+  isAuthenticated,
+  authorizedRoles,
+  sendToken,
 };
 

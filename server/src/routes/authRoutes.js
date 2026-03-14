@@ -8,8 +8,9 @@ import {
   resetPassword,
   updatePassword,
   updateProfile,
-} from "../controllers/authcontroller.js";
-import { isAuthenticated } from "../middlewares/authmiddleware.js";
+  getUserLoginHistory,
+} from "../controllers/authController.js";
+import { isAuthenticated } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -21,5 +22,7 @@ router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
 router.put("/password/update", isAuthenticated, updatePassword);
 router.put("/profile/update", isAuthenticated, updateProfile);
+router.get("/login-history", isAuthenticated, getUserLoginHistory);
 
 export default router;
+

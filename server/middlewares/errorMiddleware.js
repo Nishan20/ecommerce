@@ -1,42 +1,23 @@
-// Simple function to create error objects
-export const ErrorHandler = (message, statusCode) => {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
+// Error Handler Middleware
+class ErrorHandler extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true;
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// note: default export is middleware for compatibility
+const errorMiddleware = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+  // minimal implementation to avoid missing during old import usage
+  res.status(err.statusCode).json({ success: false, message: err.message });
 };
 
-export const errorMiddleware = (err, req, res, next) => {
-  const message = err.message || "Internal Server Error";
-  const statusCode = err.statusCode || 500;
+export { ErrorHandler };
+export default errorMiddleware;
 
-  // PostgreSQL duplicate key
-  if (err.code === "23505") {
-    return res.status(400).json({
-      success: false,
-      message: "Duplicate field value entered",
-    });
-  }
-
-  // JWT invalid
-  if (err.name === "JsonWebTokenError") {
-    return res.status(400).json({
-      success: false,
-      message: "JSON Web Token is invalid, try again",
-    });
-  }
-
-  // JWT expired
-  if (err.name === "TokenExpiredError") {
-    return res.status(400).json({
-      success: false,
-      message: "JSON Web Token has expired, try again",
-    });
-  }
-
-  return res.status(statusCode).json({
-    success: false,
-    message: message,
-  });
-};
-
-export default ErrorHandler;

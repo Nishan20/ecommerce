@@ -1,6 +1,6 @@
 import prisma from '../config/database.js';
 import catchAsyncErrors from '../middlewares/catchAsyncError.js';
-import ErrorHandler from '../middlewares/errorMiddleware.js';
+import { ErrorHandler } from '../middlewares/errorMiddleware.js';
 import { uploadToCloudinary, deleteFromCloudinary } from '../utils/cloudinary.js';
 
 // Get all products with search, filter, pagination
@@ -17,7 +17,7 @@ export const getAllProducts = catchAsyncErrors(async (req, res, next) => {
     ];
   }
 
-  // Category filter
+  // Category filter (using slug)
   if (category) {
     where.category = { slug: category };
   }
@@ -255,6 +255,15 @@ export const createCategory = catchAsyncErrors(async (req, res, next) => {
 
   const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
 
+  // Check if category already exists
+  const existingCategory = await prisma.category.findUnique({
+    where: { slug },
+  });
+
+  if (existingCategory) {
+    return next(new ErrorHandler('Category already exists.', 400));
+  }
+
   // Handle image upload
   let image = null;
   if (req.files && req.files.image) {
@@ -335,6 +344,26 @@ export const deleteCategory = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Category deleted successfully.',
+  });
+});
+
+// Get product reviews
+export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
+  const { productId } = req.params;
+
+  const reviews = await prisma.review.findMany({
+    where: { productId },
+    include: {
+      user: {
+        select: { id: true, name: true, avatar: true },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  res.status(200).json({
+    success: true,
+    reviews,
   });
 });
 
@@ -455,6 +484,7 @@ export default {
   createCategory,
   updateCategory,
   deleteCategory,
+  getProductReviews,
   createProductReview,
   deleteProductReview,
 };
