@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const slides = [
   {
     id: 1,
-    image: "/hero1.jpg",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=2100&q=80",
     title: "Latest Gadgets",
     subtitle: "Up to 50% off on electronics",
     cta: "Shop Now",
@@ -14,7 +14,7 @@ const slides = [
   },
   {
     id: 2,
-    image: "/hero2.jpg",
+    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=2100&q=80",
     title: "Fashion Fiesta",
     subtitle: "Trendy styles for every occasion",
     cta: "Explore Fashion",
@@ -22,7 +22,7 @@ const slides = [
   },
   {
     id: 3,
-    image: "/hero3.jpg",
+    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=2100&q=80",
     title: "Home Makeover",
     subtitle: "Decor and furniture deals up to 60% off",
     cta: "Shop Home",

@@ -1,0 +1,13 @@
+{
+  "name": "ecommerce-mern",
+  "version": "1.0.0",
+  "description": "Full-stack MERN e-commerce application",
+  "scripts": {
+    "dev": "npx kill-port 4000 5173 5174 5175 5176 5177 && concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "seed": "cd server && node add-sample-products.js",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

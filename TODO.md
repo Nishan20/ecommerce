@@ -1,17 +1,22 @@
-# Ecommerce Project Rebuild - TODO List
+# Checkout & Cart Visibility Fix TODO
 
-All planned rebuild tasks have been completed.
+## Progress Tracker
 
-## Completed Work
-- ✅ Backend and frontend project structure rebuilt from scratch
-- ✅ Prisma schema updated (slug added to categories)
-- ✅ All controllers, routes, middleware, and utils implemented
-- ✅ React pages, components, Redux slices, and routing created
-- ✅ Protected and admin routes working
-- ✅ Environment configuration and startup instructions provided
+### 1. Backend Updates
+- [x] Updated server/add-sample-products.js w/ real Unsplash images ✓
+- [ ] Re-run seed: `node server/add-sample-products.js`
 
-The application is now fully functional. Use the README or earlier conversation summary for running and testing details.
+### 2. Frontend Updates
+- [ ] Cart.jsx: bold titles blue price, quantity visible, delete red, primary checkout button
+- [ ] Payment.jsx: bold checkout heading, step highlights blue/gray, shipping form styles, totals bold, cards shadow-md
+- [ ] Order summary in both: darker headings, dividers, TOTAL bold larger
+- [x] CartSidebar.jsx: modern glassmorphism cards, ecommerce styles ✓
 
----
-*This file can be archived or removed now.*
+### 3. Global
+- [ ] Labels bold #1f2937 mb
+- [ ] Spacing gap increased
 
+### 4. Test
+- [ ] Responsive, visible, images show
+
+Updated by BLACKBOXAI

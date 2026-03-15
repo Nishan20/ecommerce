@@ -32,54 +32,54 @@ const Register = () => {
   };
 
   return (
-    <div className="pt-16 min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+    <div className="pt-16 min-h-screen bg-background flex items-center justify-center">
+      <div className="max-w-md w-full bg-card border border-border p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center text-foreground">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-muted-foreground">Name</label>
             <input
               type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
               required
-              className="mt-1 w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-muted-foreground">Email</label>
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
               required
-              className="mt-1 w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full px-3 py-2 rounded-lg"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-muted-foreground">Password</label>
             <input
               type="password"
               name="password"
               value={form.password}
               onChange={handleChange}
               required
-              className="mt-1 w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full px-3 py-2 rounded-lg"
             />
           </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-destructive text-sm">{error}</p>}
           <button
             type="submit"
             disabled={isSigningUp}
-            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300"
+            className="w-full py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:bg-gray-300"
           >
             {isSigningUp ? "Registering..." : "Register"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm">
-          Already have an account? <Link to="/login" className="text-blue-600">Login</Link>
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Already have an account? <Link to="/login" className="text-primary">Login</Link>
         </p>
       </div>
     </div>

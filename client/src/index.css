@@ -163,6 +163,22 @@
   p {
     @apply leading-relaxed;
   }
+
+  input,
+  textarea,
+  select {
+    @apply border border-border bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b7280;
+    opacity: 1;
+  }
+
+  button {
+    @apply font-semibold;
+  }
 }
 
 @layer components {
