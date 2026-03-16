@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 dotenv.config();               // ✅ ADD THIS
 
 const prisma = new PrismaClient({
-  log: ["query", "info", "warn", "error"],
+  log: ["error"]
 });
 
 export const connectDB = async () => {

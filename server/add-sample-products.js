@@ -5,7 +5,7 @@ dotenv.config();
 
 async function addSampleProducts() {
   try {
-    console.log('🔄 Starting real image seed...');
+
 
     const products = [
       {
@@ -154,7 +154,7 @@ async function addSampleProducts() {
       }
     }
 
-    console.log(`✅ Seed complete! Created: ${createdCount}, Updated: ${updatedCount}`);
+
   } catch (error) {
     console.error("❌ Error during seed:", error);
   } finally {
