@@ -1,16 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchStats } from "../store/slices/adminSlice";
 import { Link } from "react-router-dom";
 import { Users, Box, ShoppingCart, DollarSign } from "lucide-react";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { authUser: user } = useSelector((state) => state.auth);
   const { stats, recentOrders, recentUsers, isLoading } = useSelector((state) => state.admin);
 
   useEffect(() => {
+    if (!user || user.role !== "Admin") {
+      navigate("/");
+      return;
+    }
     dispatch(fetchStats());
-  }, [dispatch]);
+  }, [dispatch, user, navigate]);
 
   if (isLoading || !stats) {
     return (

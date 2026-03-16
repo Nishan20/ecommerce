@@ -12,38 +12,34 @@ import NewsletterSection from "../components/sections/NewsletterSection";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { products, categories } = useSelector((state) => state.product);
+  const { products, categories, isLoading } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getAllProducts({ limit: 16 }));
     dispatch(getAllCategories());
   }, [dispatch]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Loading homepage...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="pt-16">
-      {/* Hero banner */}
+    <>
       <Hero />
-
-      {/* Categories grid */}
       <Categories />
-
-      {/* Trending / featured products slider */}
-      {products?.length > 0 && (
-        <ProductSlider title="Trending Now" products={products.slice(0, 12)} />
-      )}
-
-      {/* Deals section */}
+      <ProductSlider title="Featured Products" products={products.slice(0, 10)} />
       <Deals />
-
-      {/* Testimonials */}
-      <Testimonials />
-
-      {/* Feature highlights */}
       <FeatureSection />
-
-      {/* Newsletter CTA */}
+      <Testimonials />
       <NewsletterSection />
-    </div>
+    </>
   );
 };
 

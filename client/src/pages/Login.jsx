@@ -6,15 +6,19 @@ import { login, clearError } from "../store/slices/authSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoggingIn, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoggingIn, error, authUser } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({ email: "", password: "" });
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
+    if (isAuthenticated && authUser) {
+      if (authUser.role === 'Admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, authUser, navigate]);
 
   useEffect(() => {
     return () => {

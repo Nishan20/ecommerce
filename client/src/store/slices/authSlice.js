@@ -164,6 +164,7 @@ const authSlice = createSlice({
         state.isCheckingAuth = false;
         state.isAuthenticated = true;
         state.authUser = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(checkAuth.rejected, (state) => {
         state.isCheckingAuth = false;
@@ -179,6 +180,7 @@ const authSlice = createSlice({
         state.isSigningUp = false;
         state.isAuthenticated = true;
         state.authUser = action.payload.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(register.rejected, (state, action) => {
         state.isSigningUp = false;
@@ -193,6 +195,7 @@ const authSlice = createSlice({
         state.isLoggingIn = false;
         state.isAuthenticated = true;
         state.authUser = action.payload.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoggingIn = false;
@@ -211,6 +214,7 @@ const authSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isUpdatingProfile = false;
         state.authUser = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isUpdatingProfile = false;
