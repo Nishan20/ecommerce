@@ -48,7 +48,19 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     },
   });
 
-  sendToken(user, 201, 'User registered successfully', res);
+  const userData = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    avatar: user.avatar,
+  };
+  res.status(201).json({
+    success: true,
+    user: userData,
+    token: user.token,
+    message: 'User registered successfully',
+  });
 });
 
 // Login user
@@ -89,7 +101,19 @@ export const login = catchAsyncErrors(async (req, res, next) => {
     },
   });
 
-  sendToken(user, 200, 'Logged in successfully', res);
+  const userData = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    avatar: user.avatar,
+  };
+  res.status(200).json({
+    success: true,
+    user: userData,
+    token: user.token,
+    message: 'Logged in successfully',
+  });
 });
 
 // Logout user
